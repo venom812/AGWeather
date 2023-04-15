@@ -1,4 +1,5 @@
 db.sqlite3
+settings.py
 agweather/settings.py
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -115,3 +116,5 @@ ubuntu_cmds.txt
 /vendor
 agweather/dump.rdb
 agweather/static
+agweather/settings.py
+agweather/settings.py
