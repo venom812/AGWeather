@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-yy0td1ear)i=*kv3pkbl(6_wjma6uin=o929wrje_)m#s0vw&s
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['agweather.online', 'www.agweather.online']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -75,13 +75,20 @@ WSGI_APPLICATION = 'agweather.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'u1854933_agweather',
-        'USER': 'u1854933_anton',
-        'PASSWORD': 'gZ0vV1oJ8njQ0eJ7',
-        'HOST': 'localhost',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'u1854933_agweather',
+#         'USER': 'u1854933_anton',
+#         'PASSWORD': 'gZ0vV1oJ8njQ0eJ7',
+#         'HOST': 'localhost',
+#     }
+# }
 
 
 # Password validation
