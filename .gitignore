@@ -1,6 +1,7 @@
 db.sqlite3
 settings.py
 agweather/settings.py
+_temp
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
