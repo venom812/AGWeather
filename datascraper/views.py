@@ -1,9 +1,16 @@
 from django.http import HttpResponse
 from django.templatetags.static import static
+
+from django.conf import settings
+from django.utils import timezone
+
 from datetime import datetime
 from .forecasts_scraper import scrap_forecasts
 from .archive_scraper import scrap_archive_last_record
 from .models import ForecastsRecord, ArchiveRecord
+
+def ag_time(request):
+    return HttpResponse(str(datetime.now()) + " | " + str(settings.USE_TZ) + " | " + str(timezone.now()))
 
 
 def run_forecasts_scraper(request):
