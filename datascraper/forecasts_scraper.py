@@ -28,7 +28,7 @@ def scrap_forecasts(path_to_config_file):
         req = requests.get(url=source_config['url'],
                            headers=source_config['headers'],
                            cookies=source_config['cookies'],
-                        #    proxies=datascraper_config['proxies'],
+                           proxies=datascraper_config['proxies'],
                            timeout=10)
         # return req
         src = req.text

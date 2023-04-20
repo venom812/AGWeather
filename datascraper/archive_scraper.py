@@ -21,8 +21,7 @@ def scrap_archive_last_record(path_to_config_file):
         req = requests.post(source_config['url'],
                             cookies=source_config['cookies'],
                             headers=source_config['headers'],
-                            # proxies=datascraper_config['proxies'],
-                            # data=data, 
+                            proxies=datascraper_config['proxies'],
                             timeout=10)
         src = req.text
         soup = BeautifulSoup(src, "lxml")
