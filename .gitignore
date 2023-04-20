@@ -110,3 +110,4 @@ venv.bak/
 redis-stable.tar.gz
 redis-stable/
 agweather/beget/
+static/datascraper_config.json
