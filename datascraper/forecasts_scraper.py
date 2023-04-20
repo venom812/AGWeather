@@ -330,6 +330,6 @@ def add_none_or_cut_exc(source_start_datetime, datetime_row_start):
 if __name__ == '__main__':
 
     forecasts = scrap_forecasts(
-        "datascraper/datascraper_config.json")
+        "static/datascraper_config.json")
         # "datascraper_config.json")
     print(forecasts)

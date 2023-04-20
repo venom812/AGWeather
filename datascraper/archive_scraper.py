@@ -52,5 +52,5 @@ def scrap_archive_last_record(path_to_config_file):
 
 if __name__ == '__main__':
 
-    arc = scrap_archive_last_record("datascraper/datascraper_config.json")
+    arc = scrap_archive_last_record("static/datascraper_config.json")
     print(arc)

@@ -7,7 +7,7 @@ from .models import ForecastsRecord, ArchiveRecord
 
 def run_forecasts_scraper(request):
 
-    json_forecasts_data = scrap_forecasts("datascraper/datascraper_config.json")
+    json_forecasts_data = scrap_forecasts("static/datascraper_config.json")
     local_datetime = datetime.now()
     local_datetime_iso = local_datetime.isoformat()
 
@@ -24,7 +24,7 @@ def run_archive_scraper(request):
 
     local_datetime = datetime.now()
     local_datetime_iso = local_datetime.isoformat()
-    json_archive_data = scrap_archive_last_record("datascraper/datascraper_config.json")
+    json_archive_data = scrap_archive_last_record("static/datascraper_config.json")
 
     record, created = ArchiveRecord.objects.get_or_create(rec_data=json_archive_data,
                                                            defaults={'rec_date': local_datetime})
