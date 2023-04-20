@@ -21,3 +21,12 @@ class ArchiveRecord(models.Model):
     def __str__(self):
         return self.arch_dt
     
+class DatascraperLog(models.Model):
+    """Log of datascraper"""
+
+    log_dt = models.DateTimeField()
+    log_str = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.log_str
+    

@@ -7,7 +7,7 @@ from django.utils import timezone
 from datetime import datetime
 from .forecasts_scraper import scrap_forecasts
 from .archive_scraper import scrap_archive_last_record
-from .models import ForecastsRecord, ArchiveRecord
+from .models import ForecastsRecord, ArchiveRecord, DatascraperLog
 
 
 def run_forecasts_scraper(request):
@@ -16,17 +16,19 @@ def run_forecasts_scraper(request):
 
     dt = datetime.now()
     dt_iso = dt.isoformat()
+    msg = dt_iso
 
     try:
         record = ForecastsRecord.objects.get(start_forec_dt=start_forec_date)
 
-        if record.forec_data_json != forec_data_json:
+        if str(record.forec_data_json) != str(forec_data_json).replace(')',']').replace('(','['):
+            print(type(record.forec_data_json),type(forec_data_json))
             record.forec_data_json, record.scrap_dt = forec_data_json, dt
             record.save()
 
-            return HttpResponse(dt_iso + ' Forec Record updated')
+            msg += ' Forec Record updated'
         else:
-            return HttpResponse(dt_iso + ' Forec Record already exists')
+            msg += ' Forec Record already exists'
     
     except ForecastsRecord.DoesNotExist:
         record = ForecastsRecord(scrap_dt=datetime.now(), 
@@ -34,7 +36,11 @@ def run_forecasts_scraper(request):
                                  forec_data_json=forec_data_json)
         record.save()
 
-        return HttpResponse(dt_iso + ' New Forec record created')
+        msg += ' New Forec record created'
+
+    finally:
+        DatascraperLog.objects.create(log_dt=dt,log_str=msg)
+        return HttpResponse(msg)
 
 def run_archive_scraper(request):
 
@@ -42,14 +48,15 @@ def run_archive_scraper(request):
 
     dt = datetime.now()
     dt_iso = dt.isoformat()
+    msg = dt_iso
 
     record, created = ArchiveRecord.objects.get_or_create(arch_dt = arch_datetime,
                                                           arch_data_json = arch_data_json,
                                                           defaults={'scrap_dt': dt})
-    if created:
-        return HttpResponse(dt_iso + ' New Arch record created')
-    else:
-        return HttpResponse(dt_iso + ' Arch Record already exists')
+    
+    msg += ' New Arch record created' if created else ' Arch Record already exists'
+    DatascraperLog.objects.create(log_dt=dt,log_str=msg)
+    return HttpResponse(msg)
 
 
 def ag_time(request):
