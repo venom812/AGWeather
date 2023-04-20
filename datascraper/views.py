@@ -24,7 +24,9 @@ def run_forecasts_scraper(request):
             record.forec_data_json, record.scrap_dt = forec_data_json, dt
             record.save()
 
-        return HttpResponse(dt_iso + ' Record updated')
+            return HttpResponse(dt_iso + ' Forec Record updated')
+        else:
+            return HttpResponse(dt_iso + ' Forec Record already exists')
     
     except ForecastsRecord.DoesNotExist:
         record = ForecastsRecord(scrap_dt=datetime.now(), 
@@ -32,7 +34,7 @@ def run_forecasts_scraper(request):
                                  forec_data_json=forec_data_json)
         record.save()
 
-        return HttpResponse(dt_iso + ' New record created')
+        return HttpResponse(dt_iso + ' New Forec record created')
 
 def run_archive_scraper(request):
 
@@ -45,9 +47,9 @@ def run_archive_scraper(request):
                                                           arch_data_json = arch_data_json,
                                                           defaults={'scrap_dt': dt})
     if created:
-        return HttpResponse(dt_iso + ' New record created')
+        return HttpResponse(dt_iso + ' New Arch record created')
     else:
-        return HttpResponse(dt_iso + ' Record already exists')
+        return HttpResponse(dt_iso + ' Arch Record already exists')
 
 
 def ag_time(request):
