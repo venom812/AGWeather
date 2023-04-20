@@ -110,12 +110,3 @@ venv.bak/
 redis-stable.tar.gz
 redis-stable/
 agweather/beget/
-
-ubuntu_cmds.txt
-.vscode
-.vscode/launch.json
-/vendor
-agweather/dump.rdb
-agweather/static
-agweather/settings.py
-agweather/settings.py
