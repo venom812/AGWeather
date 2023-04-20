@@ -35,6 +35,7 @@ def scrap_archive_last_record(path_to_config_file):
         date_time[1] = str(month_rusname_to_number(date_time[1])).zfill(2)
         date_time = '-'.join(date_time) + 'T' + \
                    arch_row.find_all('td')[-29].get_text() + ":00:00"
+        date_time = datetime.fromisoformat(date_time)
 
         # Parsing  temp, pressure, wind_speed
         arch_row = arch_row.find_all('td')

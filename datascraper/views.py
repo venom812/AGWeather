@@ -9,35 +9,46 @@ from .forecasts_scraper import scrap_forecasts
 from .archive_scraper import scrap_archive_last_record
 from .models import ForecastsRecord, ArchiveRecord
 
-def ag_time(request):
-    return HttpResponse(str(datetime.now()) + " | " + str(settings.USE_TZ) + " | " + str(timezone.now()))
-
 
 def run_forecasts_scraper(request):
 
-    json_forecasts_data = scrap_forecasts(static("datascraper_config.json"))
-    local_datetime = datetime.now()
-    local_datetime_iso = local_datetime.isoformat()
+    start_forec_date, forec_data_json = scrap_forecasts(static("datascraper_config.json"))
+
+    dt = datetime.now()
+    dt_iso = dt.isoformat()
 
     try:
-        record = ForecastsRecord.objects.get(rec_data=json_forecasts_data)
-        return HttpResponse(local_datetime_iso + ' Record already exists: ' + str(json_forecasts_data[0]))
+        record = ForecastsRecord.objects.get(start_forec_dt=start_forec_date)
+
+        if record.forec_data_json != forec_data_json:
+            record.forec_data_json, record.scrap_dt = forec_data_json, dt
+            record.save()
+
+        return HttpResponse(dt_iso + ' Record updated')
     
     except ForecastsRecord.DoesNotExist:
-        record = ForecastsRecord(rec_date=local_datetime, rec_data=json_forecasts_data)
+        record = ForecastsRecord(scrap_dt=datetime.now(), 
+                                 start_forec_dt=start_forec_date, 
+                                 forec_data_json=forec_data_json)
         record.save()
-        return HttpResponse(local_datetime_iso + ' New record created: ' + str(json_forecasts_data[0]))
+
+        return HttpResponse(dt_iso + ' New record created')
 
 def run_archive_scraper(request):
 
-    local_datetime = datetime.now()
-    local_datetime_iso = local_datetime.isoformat()
-    json_archive_data = scrap_archive_last_record(static("datascraper_config.json"))
+    arch_datetime, arch_data_json = scrap_archive_last_record(static("datascraper_config.json"))
 
-    record, created = ArchiveRecord.objects.get_or_create(rec_data=json_archive_data,
-                                                           defaults={'rec_date': local_datetime})
+    dt = datetime.now()
+    dt_iso = dt.isoformat()
+
+    record, created = ArchiveRecord.objects.get_or_create(arch_dt = arch_datetime,
+                                                          arch_data_json = arch_data_json,
+                                                          defaults={'scrap_dt': dt})
     if created:
-        return HttpResponse(local_datetime_iso + ' New record created: ' + str(json_archive_data[0]))
+        return HttpResponse(dt_iso + ' New record created')
     else:
-        return HttpResponse(local_datetime_iso + ' Record already exists: ' + str(json_archive_data[0]))
+        return HttpResponse(dt_iso + ' Record already exists')
 
+
+def ag_time(request):
+    return HttpResponse(str(datetime.now()) + " | " + str(settings.USE_TZ) + " | " + str(timezone.now()))

@@ -4,7 +4,7 @@ import re
 from json import load
 import requests
 from bs4 import BeautifulSoup
-from urllib.request import urlopen
+# from urllib.request import urlopen
 
 
 
@@ -241,11 +241,8 @@ def scrap_forecasts(path_to_config_file):
         scraper_error(source_config['name'])
         return
 
-    # Formating record for database (start_date and local time, step in hours, row len steps)
-    datetime_row_params = (datetime_row_start.isoformat(),DatetimeRow.step.seconds//3600, datetime_row_len)
-    forecasts_database_record = (datetime_row_params, forecasts_data_list)
 
-    return forecasts_database_record
+    return datetime_row_start.isoformat(), forecasts_data_list
 
 
 class DatetimeRow():

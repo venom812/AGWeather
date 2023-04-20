@@ -4,23 +4,20 @@ from django.db import models
 class ForecastsRecord(models.Model):
     """Scraped forecasts data form sources in JSON format."""
 
-    rec_date = models.DateTimeField()
-    rec_data = models.JSONField()
+    scrap_dt = models.DateTimeField()
+    start_forec_dt = models.DateTimeField(db_index=True)
+    forec_data_json = models.JSONField()
     
     def __str__(self):
-        return self.rec_date
-    
-    class Meta:
-        ordering = ["rec_date"]
+        return self.start_forec_dt
 
 class ArchiveRecord(models.Model):
     """Scraped weather archive data from source in JSON format."""
 
-    rec_date = models.DateTimeField()
-    rec_data = models.JSONField()
+    scrap_dt = models.DateTimeField()
+    arch_dt = models.DateTimeField(db_index=True)
+    arch_data_json = models.JSONField()
 
     def __str__(self):
-        return self.rec_date
+        return self.arch_dt
     
-    class Meta:
-        ordering = ["rec_date"]
