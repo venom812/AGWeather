@@ -2,17 +2,22 @@
 from selenium import webdriver
 from bs4 import BeautifulSoup
 import time
+from pathlib import Path
+
 
 
 
 def get_source_html(url):
 
+    # print(Path(__file__).resolve().parent)  
+
     options = webdriver.ChromeOptions()
     options.headless = True
     options.add_argument("--disable-blink-features=AutomationControlled")
 
-    driver = webdriver.Chrome(
-        executable_path="/home/anton/agweather/AGWeather/datascraper/selinium/chromedriver",
+    driver_executable_path = str(Path(__file__).resolve().parent) + "/chromedriver"
+
+    driver = webdriver.Chrome(executable_path=driver_executable_path,
         # options=options
     )
 
